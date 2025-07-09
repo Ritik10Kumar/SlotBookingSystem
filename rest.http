@@ -1,0 +1,55 @@
+//Create Doctor and Patient API
+
+###
+POST http://localhost:5000/api/users
+content-type: application/json
+Accept: application/json
+
+{
+  "name": "Amit Pal",
+  "role": "patient"
+}
+
+// Generate Calendar by Doctor API
+
+###
+POST http://localhost:5000/api/slots/1
+content-type: application/json
+Accept: application/json
+
+{
+  "start_time": "2025-09-12T10:00:00Z",
+  "end_time": "2025-09-12T10:30:00Z",
+  "capacity": 2
+}
+
+
+//Patient SlotBook API 
+
+###
+POST http://localhost:5000/api/reservations
+content-type: application/json
+Accept: application/json
+
+{
+  "user_id": 2,      //userid from databse
+  "timeslot_id": 1   //timeslot id from database
+}
+
+
+//Patient Views Their Reservations API
+
+###
+GET http://localhost:5000/api/reservations/user/3
+content-type: application/json
+Accept: application/json
+
+
+//Delete Reservatio By Patient API
+
+###
+DELETE http://localhost:5000/api/reservations/user/1
+content-type: application/json
+Accept: application/json
+//Id in the api query is the id of reservation from database
+

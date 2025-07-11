@@ -2,8 +2,6 @@ const { TimeSlot, User } = require('../models'); // <-- Add User
 const { Op } = require('sequelize');
 
 exports.createTimeSlot = async (doctorId, bodydata) => {
-  // exports.createTimeSlot = async ({ doctorId, start_time, end_time, capacity }) => {
-
   // ✅ 1. Validate doctorId exists and is a doctor
   console.log("doctorId-- ",doctorId)
   const doctor = await User.findByPk(doctorId);
@@ -13,25 +11,21 @@ exports.createTimeSlot = async (doctorId, bodydata) => {
   console.log("doctor = ",doctor)
 
   // ✅ 2. Time range check
-  for (let i = 0; i < bodydata.length; i++) {
-    if (new Date(bodydata[i].start_time) >= new Date(bodydata[i].end_time)) {
+  for (const slot of bodydata) {
+    if (new Date(bodydata[i].start_time) >= new Date(slot.end_time)) {
       throw new Error('Start time must be before end time.');
     }
   }
-  // if (new Date(start_time) >= new Date(end_time)) {
-  //   throw new Error('Start time must be before end time.');
-  // }
-
   // ✅ 3. Prevent overlapping time slots
 
-  for (let i = 0; i < bodydata.length; i++) {
+  for (const slot of bodydata) {
     const overlapping = await TimeSlot.findOne({
       where: {
         doctor_id: doctorId,
         [Op.or]: [
           {
-            start_time: { [Op.lt]: new Date(bodydata[i].end_time) },
-            end_time: { [Op.gt]: new Date(bodydata[i].start_time) }
+            start_time: { [Op.lt]: new Date(slot.end_time) },
+            end_time: { [Op.gt]: new Date(slot.start_time) }
           }
         ]
       }
@@ -44,27 +38,18 @@ exports.createTimeSlot = async (doctorId, bodydata) => {
 
 
   // ✅ 4. Create time slot
-
-  // need tp provide slot data in array 
-  // return await TimeSlot.create({
-  //   doctor_id: doctorId,
-  //   start_time,
-  //   end_time,
-  //   capacity
-  // });
-  for (let i = 0; i < bodydata.length; i++) {
-    let start_time = bodydata[i].start_time
-    let end_time = bodydata[i].end_time
-    let capacity = bodydata[i].capacity
-    await TimeSlot.create({
+  const createdSlots = [];
+  for (const slot of bodydata) {
+    const newSlot = await TimeSlot.create({
       doctor_id: doctorId,
-      start_time,
-      end_time,
-      capacity
+      start_time: slot.start_time,
+      end_time: slot.end_time,
+      capacity: slot.capacity
     });
+    createdSlots.push(newSlot);
   }
 
-  return ""
+  return createdSlots;
 
 };
 

@@ -4,8 +4,10 @@ exports.createTimeSlot = async (req, res) => {
   try {
     const { doctorId } = req.params;
     const { start_time, end_time, capacity } = req.body;
+    const bodydata = req.body.timeslots;
 
-    const timeslot = await slotService.createTimeSlot({ doctorId, start_time, end_time, capacity });
+    const timeslot = await slotService.createTimeSlot(doctorId, bodydata);
+    // const timeslot = await slotService.createTimeSlot({ doctorId, start_time, end_time, capacity });
     res.status(201).json(timeslot);
   } catch (err) {
     res.status(400).json({ error: err.message });

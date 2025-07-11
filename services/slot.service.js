@@ -97,5 +97,5 @@ exports.deleteTimeSlot = async ({ doctorId, slotId }) => {
   const deleted = await TimeSlot.destroy({
     where: { id: slotId, doctor_id: doctorId }
   });
-  if (!deleted) throw new Error('Slot not found or not owned by the doctor');
+  if (!deleted) throw new Error('Slot not found or not owned by this doctor');
 };

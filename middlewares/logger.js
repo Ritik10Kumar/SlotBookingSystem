@@ -1,6 +1,6 @@
 const morgan = require('morgan');
-const getCallerInfo = require('../utils/getCallerInfo');
 
+// Create custom log format with time, method, url, status and response time
 const customLogger = morgan((tokens, req, res) => {
   return [
     `[${new Date().toISOString()}]`,
@@ -8,9 +8,7 @@ const customLogger = morgan((tokens, req, res) => {
     tokens.url(req, res),
     '-',
     tokens.status(req, res),
-    tokens['response-time'](req, res), 'ms',
-    '|',
-    'Source:', getCallerInfo() 
+    tokens['response-time'](req, res), 'ms'
   ].join(' ');
 });
 

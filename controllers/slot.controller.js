@@ -25,3 +25,33 @@ exports.listTimeSlots = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+exports.updateTimeSlot = async (req, res) => {
+  try {
+    const { doctorId, slotId } = req.params;
+    const { start_time, end_time, capacity } = req.body;
+
+    const updated = await slotService.updateTimeSlot({
+      doctorId,
+      slotId,
+      start_time,
+      end_time,
+      capacity
+    });
+
+    res.status(200).json(updated);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+exports.deleteTimeSlot = async (req, res) => {
+  try {
+    const { doctorId, slotId } = req.params;
+
+    await slotService.deleteTimeSlot({ doctorId, slotId });
+    res.status(200).json({ message: 'Slot deleted successfully' });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};

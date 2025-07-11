@@ -8,4 +8,11 @@ router.post('/:doctorId', requireDoctorRole,slotController.createTimeSlot);
 // List all time slots for a doctor (optionally by date range)
 router.get('/:doctorId', slotController.listTimeSlots);
 
+//Update Slot
+router.patch('/:doctorId/:slotId', requireDoctorRole, slotController.updateTimeSlot);
+
+//Delete Slot
+router.delete('/:doctorId/:slotId', requireDoctorRole, slotController.deleteTimeSlot);
+
+
 module.exports = router;

@@ -15,3 +15,11 @@ exports.requireDoctorRole = async (req, res, next) => {
 
   next();
 };
+
+
+exports.requirePatientRole = (req, res, next) => {
+  if (req.user.role !== 'patient') {
+    return res.status(403).json({ error: 'Only patients can perform this action' });
+  }
+  next();
+};

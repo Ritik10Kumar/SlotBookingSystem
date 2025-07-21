@@ -5,7 +5,11 @@ const Reservation = sequelize.define('Reservation', {
   id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
   user_id: { type: DataTypes.INTEGER, allowNull: false },
   timeslot_id: { type: DataTypes.INTEGER, allowNull: false },
-  created_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW }
+  created_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
+  status: {
+  type: DataTypes.ENUM('confirmed', 'cancelled', 'completed'),
+  defaultValue: 'confirmed'
+}
 }, {
   tableName: 'reservations',
   timestamps: false

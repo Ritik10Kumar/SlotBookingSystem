@@ -29,3 +29,20 @@ exports.cancelReservation = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+
+exports.updateStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    if (!['confirmed', 'cancelled', 'completed'].includes(status)) {
+      return res.status(400).json({ error: 'Invalid status value' });
+    }
+
+    const updated = await reservationService.updateStatus(id, status);
+    res.status(200).json({ message: 'Reservation status updated', data: updated });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

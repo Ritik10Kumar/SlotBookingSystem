@@ -64,3 +64,14 @@ exports.cancelReservation = async (id) => {
   const deleted = await Reservation.destroy({ where: { id } });
   if (!deleted) throw new Error('Reservation not found');
 };
+
+
+exports.updateStatus = async (id, status) => {
+  const reservation = await Reservation.findByPk(id);
+  if (!reservation) throw new Error('Reservation not found');
+
+  reservation.status = status;
+  await reservation.save();
+
+  return reservation;
+};

@@ -7,6 +7,10 @@ const User = sequelize.define('User', {
   role: {
     type: DataTypes.ENUM('doctor', 'patient'),
     allowNull: false
+  },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false
   }
 }, {
   tableName: 'users',

@@ -1,0 +1,92 @@
+# Signup
+POST http://localhost:5000/api/auth/signup
+Content-Type: application/json
+
+{
+  "name": "Ritik",
+  "password": "pass123",
+  "role": "doctor"
+}
+
+###
+
+# Login
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+  "name": "Ritik",
+  "password": "pass123"
+}
+
+###
+
+# Create Slots
+POST http://localhost:5000/api/slots/1
+Content-Type: application/json
+Authorization: Bearer {{doctor_token}}
+
+{
+  "timeslots": [
+    {
+      "start_time": "2025-07-13T10:00:00Z",
+      "end_time": "2025-07-13T10:30:00Z",
+      "capacity": 3
+    }
+  ]
+}
+
+###
+
+# Get Slots
+GET http://localhost:5000/api/slots/1
+Authorization: Bearer {{doctor_token}}
+
+###
+
+# Update Slot
+PATCH http://localhost:5000/api/slots/1/1
+Content-Type: application/json
+Authorization: Bearer {{doctor_token}}
+
+{
+  "start_time": "2025-07-13T11:00:00Z",
+  "end_time": "2025-07-13T11:30:00Z",
+  "capacity": 2
+}
+
+###
+
+# Delete Slot
+DELETE http://localhost:5000/api/slots/1/1
+Authorization: Bearer {{doctor_token}}
+
+###
+
+# Book Slot
+POST http://localhost:5000/api/reservations
+Content-Type: application/json
+Authorization: Bearer {{patient_token}}
+
+{
+  "timeslot_id": 1
+}
+
+###
+
+# Update Reservation Status
+PATCH http://localhost:5000/api/reservations/1/status
+Content-Type: application/json
+Authorization: Bearer {{patient_token}}
+
+{
+  "status": "cancelled"
+}
+
+###
+
+# Get User Reservations
+GET http://localhost:5000/api/reservations/user/2
+Authorization: Bearer {{patient_token}}
+
+###
